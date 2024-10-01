@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Clickable Calendar</title>
+</head>
+
+<body>
+    <% let listOfMonths = calendar.getListOfMonths() %>
+    <% let currentMonth = calendar.getCurrentMonth() %>
+    <select id="month-dropdown">
+        <% for (let i=0; i < listOfMonths.length; i++) { %>
+            <% if (currentMonth == i) { %>
+                <option value="<%= i %>" selected><%= listOfMonths[i] %></option>
+            <% } else { %>
+                <option value="<%= i %>"><%= listOfMonths[i] %></option>
+            <% } %>
+        <% } %>
+    </select>
+    <table>
+        <thead>
+            <tr>
+                <th>Sun</th>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thu</th>
+                <th>Fri</th>
+                <th>Sat</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% let calendarData = calendar.getCalendar() %>
+            <% for (let i=0; i < calendarData.length; i++) { %>
+                <% if (i % 7===0) { %>
+                    <tr>
+                        <% } %>
+                            <td>
+                                <%= calendarData[i].date %>
+                                    <% if (calendarData[i].actions.length> 0) { %>
+                                        <ul>
+                                            <% for (let j=0; j < calendarData[i].actions.length; j++) { %>
+                                                <li>
+                                                    <%= calendarData[i].actions[j] %>
+                                                </li>
+                                                <% } %>
+                                        </ul>
+                                        <% } %>
+                                            <form action="/action" method="post">
+                                                <input type="hidden" name="date" value="<%= calendarData[i].date %>">
+                                                <input type="text" name="action">
+                                                <button type="submit">Add Action</button>
+                                            </form>
+                            </td>
+                            <% if (i % 7===6) { %>
+                    </tr>
+                    <% } %>
+                        <% } %>
+        </tbody>
+    </table>
+</body>
+
+</html>
